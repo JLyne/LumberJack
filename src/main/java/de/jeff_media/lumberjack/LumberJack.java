@@ -56,12 +56,7 @@ public class LumberJack extends JavaPlugin {
     HashMap<Player, PlayerSetting> perPlayerSettings;
     boolean debug = false;
     private boolean usingMatchingConfig = true;
-    private CustomDropManager customDropManager;
     public final Set<Integer> decayTasks = new HashSet<>();
-
-    public CustomDropManager getCustomDropManager() {
-        return customDropManager;
-    }
 
     public HashSet<BukkitTask> getScheduledTasks() {
         return scheduledTasks;
@@ -84,8 +79,6 @@ public class LumberJack extends JavaPlugin {
             if(!player.isOnline()) return "false";
             return String.valueOf(getPlayerSetting(player.getPlayer()).gravityEnabled);
         });
-
-        customDropManager = new CustomDropManager();
 
         createConfig();
         //treeBlockNames = (ArrayList<String>) getConfig().getStringList("tree-blocks");
@@ -250,7 +243,6 @@ public class LumberJack extends JavaPlugin {
 
     public void reload() {
         reloadConfig();
-        customDropManager = new CustomDropManager();
     }
 }
 	

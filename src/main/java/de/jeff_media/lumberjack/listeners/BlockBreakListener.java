@@ -48,7 +48,6 @@ public class BlockBreakListener implements Listener {
         if (BlockTracker.isPlayerPlacedBlock(event.getBlock())) {
             return;
         }
-        plugin.getCustomDropManager().doCustomDrops(event.getBlock().getLocation(), event.getBlock().getType());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
