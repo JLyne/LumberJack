@@ -9,7 +9,6 @@ import de.jeff_media.lumberjack.commands.CommandLumberjack;
 import de.jeff_media.lumberjack.config.ConfigUpdater;
 import de.jeff_media.lumberjack.config.Messages;
 import de.jeff_media.lumberjack.data.PlayerSetting;
-import de.jeff_media.lumberjack.hooks.FarmLimiterListener;
 import de.jeff_media.lumberjack.listeners.BlockBreakListener;
 import de.jeff_media.lumberjack.listeners.BlockPlaceListener;
 import de.jeff_media.lumberjack.listeners.DecayListener;
@@ -18,13 +17,9 @@ import de.jeff_media.lumberjack.utils.TreeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventPriority;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -117,21 +112,6 @@ public class LumberJack extends JavaPlugin {
         gravityEnabledByDefault = getConfig().getBoolean("gravity-enabled-by-default");
 
         trackBlocks();
-
-        registerFarmLimiterEventListener();
-    }
-
-    private void registerFarmLimiterEventListener() {
-
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("FarmLimiter");
-        if(plugin == null) return;
-        try {
-            getLogger().warning("Oh, you are running FarmLimiter. Hooking into it now...");
-            Bukkit.getPluginManager().registerEvent((Class<? extends Event>) Class.forName("me.filoghost.farmlimiter.api.FarmLimitEvent"),new FarmLimiterListener(), EventPriority.HIGHEST,new FarmLimiterListener.FarmLimiterListenerEventExecutor(),this,false);
-            getLogger().warning("Hooked into FarmLimiter. However, PLEASE mock the FarmLimiter author to make their API publicly available in some maven repo. LumberJack currently has to rely on reflection to access its API.");
-        } catch (ClassNotFoundException ignored) {
-            ignored.printStackTrace();
-        }
     }
 
     private void trackBlocks() {
