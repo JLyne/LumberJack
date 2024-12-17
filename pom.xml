@@ -55,10 +55,6 @@
                             <pattern>com.jeff_media.morepersistentdatatypes</pattern>
                             <shadedPattern>de.jeff_media.lumberjack.libs.morepersistentdatatypes</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>de.jeff_media.lumberjack.libs.bstats</shadedPattern>
-                        </relocation>
                     </relocations>
                     <artifactSet>
                         <excludes>
@@ -147,12 +143,6 @@
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
-            <scope>compile</scope>
         </dependency>
         <!--<dependency>
             <groupId>de.jeff_media</groupId>

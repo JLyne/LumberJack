@@ -15,7 +15,6 @@ import de.jeff_media.lumberjack.listeners.BlockPlaceListener;
 import de.jeff_media.lumberjack.listeners.DecayListener;
 import de.jeff_media.lumberjack.listeners.PlayerListener;
 import de.jeff_media.lumberjack.utils.TreeUtils;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -33,7 +32,6 @@ import org.bukkit.util.Vector;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.BiFunction;
 
 
 public class LumberJack extends JavaPlugin {
@@ -50,7 +48,6 @@ public class LumberJack extends JavaPlugin {
             "CRIMSON_STEM", "STRIPPED_CRIMSON_STEM", "CRIMSON_HYPHAE", "STRIPPED_CRIMSON_HYPHAE",
             "CHERRY_LOG", "STRIPPED_CHERRY_LOG", "CHERRY_WOOD", "STRIPPED_CHERRY_WOOD"
     };
-    private static final int SPIGOT_RESOURCE_ID = 60306;
     private static LumberJack instance;
     public final Vector fallingBlockOffset = new Vector(0.5, 0.0, 0.5);
     public final int maxTreeSize = 50;
@@ -118,13 +115,6 @@ public class LumberJack extends JavaPlugin {
         perPlayerSettings = new HashMap<>();
 
         gravityEnabledByDefault = getConfig().getBoolean("gravity-enabled-by-default");
-
-        Metrics metrics = new Metrics(this, 3184);
-        metrics.addCustomChart(new Metrics.SimplePie("gravity_enabled_by_default", () -> Boolean.toString(getConfig().getBoolean("gravity-enabled-by-default"))));
-        metrics.addCustomChart(new Metrics.SimplePie("using_matching_config", () -> Boolean.toString(usingMatchingConfig)));
-        metrics.addCustomChart(new Metrics.SimplePie("show_message_again_after_logout", () -> Boolean.toString(getConfig().getBoolean("show-message-again-after-logout"))));
-        metrics.addCustomChart(new Metrics.SimplePie("attached_logs_fall_down", () -> Boolean.toString(getConfig().getBoolean("attached-logs-fall-down"))));
-        metrics.addCustomChart(new Metrics.SimplePie("prevent_torch_exploit", () -> Boolean.toString(getConfig().getBoolean("prevent-torch-exploit"))));
 
         trackBlocks();
 
