@@ -1,10 +1,10 @@
 package de.jeff_media.lumberjack.listeners;
 
 import com.jeff_media.jefflib.BlockTracker;
-import com.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.lumberjack.LumberJack;
 import de.jeff_media.lumberjack.NBTKeys;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
@@ -16,9 +16,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 public class BlockPlaceListener implements Listener {
 
     private final LumberJack plugin;
+    private final NamespacedKey fallingLogKey;
 
     public BlockPlaceListener(LumberJack plugin) {
         this.plugin = plugin;
+        this.fallingLogKey = new NamespacedKey(plugin, NBTKeys.IS_FALLING_LOG);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -53,10 +55,9 @@ public class BlockPlaceListener implements Listener {
 
             FallingBlock fallingBlock = (FallingBlock) entity;
 
-            if (!NBTAPI.hasNBT(fallingBlock, NBTKeys.IS_FALLING_LOG)) {
+            if(!fallingBlock.getPersistentDataContainer().has(fallingLogKey)) {
                 continue;
             }
-
             if (fallingBlock.getLocation().getBlockX() != e.getBlockPlaced().getLocation().getBlockX()) {
                 continue;
             }

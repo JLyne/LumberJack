@@ -1,13 +1,12 @@
 package de.jeff_media.lumberjack.listeners;
 
 import com.jeff_media.jefflib.BlockTracker;
-import com.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.lumberjack.LumberJack;
 import de.jeff_media.lumberjack.NBTKeys;
-import de.jeff_media.lumberjack.NBTValues;
 import de.jeff_media.lumberjack.data.AxeMaterial;
 import de.jeff_media.lumberjack.utils.TreeUtils;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -18,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,9 +26,11 @@ import java.util.Comparator;
 public class BlockBreakListener implements Listener {
 
     final LumberJack plugin;
+    final NamespacedKey fallingLogKey;
 
     public BlockBreakListener(LumberJack plugin) {
         this.plugin = plugin;
+        this.fallingLogKey = new NamespacedKey(plugin, NBTKeys.IS_FALLING_LOG);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -188,7 +190,7 @@ public class BlockBreakListener implements Listener {
                 FallingBlock fallingBlock = logAbove.getLocation().getWorld()
                         .spawnFallingBlock(logAbove.getLocation().add(plugin.fallingBlockOffset), blockData);
                 if (plugin.getConfig().getBoolean("prevent-torch-exploit")) {
-                    NBTAPI.addNBT(fallingBlock, NBTKeys.IS_FALLING_LOG, NBTValues.TRUE);
+                    fallingBlock.getPersistentDataContainer().set(fallingLogKey, PersistentDataType.BOOLEAN, true);
                 }
                 if (plugin.getConfig().getBoolean("prevent-torch-exploit-aggressive")) {
                     fallingBlock.setDropItem(false);
