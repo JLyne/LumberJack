@@ -99,13 +99,13 @@
     </build>
 
     <repositories>
+<!--        <repository>-->
+<!--            <id>placeholderapi</id>-->
+<!--            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>-->
+<!--        </repository>-->
         <repository>
-            <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>paper-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>bungeecord-repo</id>
@@ -117,7 +117,7 @@
         </repository>
         <repository>
             <id>jeff-media-repo</id>
-            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
+            <url>https://repo.jeff-media.com/public/</url>
         </repository>
     </repositories>
 
@@ -135,8 +135,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.21.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
