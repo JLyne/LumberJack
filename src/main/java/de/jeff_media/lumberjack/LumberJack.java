@@ -3,7 +3,6 @@ package de.jeff_media.lumberjack;
 import com.google.common.base.Enums;
 import com.jeff_media.jefflib.BlockTracker;
 import com.jeff_media.jefflib.JeffLib;
-import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.pluginhooks.PlaceholderAPIUtils;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import de.jeff_media.lumberjack.commands.CommandLumberjack;
@@ -87,13 +86,6 @@ public class LumberJack extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-        if (!McVersion.current().isAtLeast(1,16,3)) {
-            getLogger().severe("LumberJack requires AT LEAST Minecraft version 1.16.3!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
         instance = this;
         JeffLib.registerBlockTracker();
 
