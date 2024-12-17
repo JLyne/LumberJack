@@ -15,8 +15,6 @@ import de.jeff_media.lumberjack.listeners.BlockPlaceListener;
 import de.jeff_media.lumberjack.listeners.DecayListener;
 import de.jeff_media.lumberjack.listeners.PlayerListener;
 import de.jeff_media.lumberjack.utils.TreeUtils;
-import de.jeff_media.updatechecker.UpdateChecker;
-import de.jeff_media.updatechecker.UserAgentBuilder;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -127,18 +125,6 @@ public class LumberJack extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SimplePie("show_message_again_after_logout", () -> Boolean.toString(getConfig().getBoolean("show-message-again-after-logout"))));
         metrics.addCustomChart(new Metrics.SimplePie("attached_logs_fall_down", () -> Boolean.toString(getConfig().getBoolean("attached-logs-fall-down"))));
         metrics.addCustomChart(new Metrics.SimplePie("prevent_torch_exploit", () -> Boolean.toString(getConfig().getBoolean("prevent-torch-exploit"))));
-
-        UpdateChecker updateChecker = UpdateChecker.init(this, "https://api.jeff-media.de/lumberjack/latest-version.txt")
-                .setChangelogLink(SPIGOT_RESOURCE_ID)
-                .setDownloadLink(SPIGOT_RESOURCE_ID)
-                .setDonationLink("https://paypal.me/mfnalex")
-                .setUserAgent(UserAgentBuilder.getDefaultUserAgent());
-        if (Objects.requireNonNull(getConfig().getString("check-for-updates", "true")).equalsIgnoreCase("true")) {
-            updateChecker.checkNow().checkEveryXHours(getConfig().getDouble("check-interval"));
-        } // When set to on-startup, we check right now (delay 0)
-        else if (Objects.requireNonNull(getConfig().getString("check-for-updates", "true")).equalsIgnoreCase("on-startup")) {
-            updateChecker.checkNow();
-        }
 
         trackBlocks();
 
