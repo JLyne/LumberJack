@@ -1,6 +1,6 @@
 package de.jeff_media.lumberjack;
 
-import com.google.common.base.Enums;
+import com.destroystokyo.paper.MaterialSetTag;
 import com.jeff_media.jefflib.BlockTracker;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.pluginhooks.PlaceholderAPIUtils;
@@ -31,18 +31,6 @@ import java.util.*;
 
 public class LumberJack extends JavaPlugin {
 
-    //static final String[] woodTypes = {"acacia", "birch", "jungle", "oak", "dark_oak", "spruce"};
-    static final String[] treeBlocks = {
-            "ACACIA_LOG", "STRIPPED_ACACIA_LOG", "ACACIA_WOOD", "STRIPPED_ACACIA_WOOD",
-            "BIRCH_LOG", "STRIPPED_BIRCH_LOG", "BIRCH_WOOD", "STRIPPED_BIRCH_WOOD",
-            "DARK_OAK_LOG", "STRIPPED_DARK_OAK_LOG", "DARK_OAK_WOOD", "STRIPPED_DARK_OAK_WOOD",
-            "JUNGLE_LOG", "STRIPPED_JUNGLE_LOG", "JUNGLE_WOOD", "STRIPPED_JUNGLE_WOOD",
-            "OAK_LOG", "STRIPPED_OAK_LOG", "OAK_WOOD", "STRIPPED_OAK_WOOD",
-            "SPRUCE_LOG", "STRIPPED_SPRUCE_LOG", "SPRUCE_WOOD", "STRIPPED_SPRUCE_WOOD",
-            "WARPED_STEM", "STRIPPED_WARPED_STEM", "WARPED_HYPHAE", "STRIPPED_WARPED_HYPHAE",
-            "CRIMSON_STEM", "STRIPPED_CRIMSON_STEM", "CRIMSON_HYPHAE", "STRIPPED_CRIMSON_HYPHAE",
-            "CHERRY_LOG", "STRIPPED_CHERRY_LOG", "CHERRY_WOOD", "STRIPPED_CHERRY_WOOD"
-    };
     private static LumberJack instance;
     public final Vector fallingBlockOffset = new Vector(0.5, 0.0, 0.5);
     public final int maxTreeSize = 50;
@@ -51,7 +39,6 @@ public class LumberJack extends JavaPlugin {
     public TreeUtils treeUtils;
     public Messages messages;
     public ArrayList<String> disabledWorlds;
-    public ArrayList<String> treeBlockNames;
     boolean gravityEnabledByDefault = false;
     HashMap<Player, PlayerSetting> perPlayerSettings;
     boolean debug = false;
@@ -63,7 +50,6 @@ public class LumberJack extends JavaPlugin {
     }
 
     private final HashSet<BukkitTask> scheduledTasks = new HashSet<>();
-    //ArrayList<String> treeGroundBlockNames;
 
     public static LumberJack getInstance() {
         return instance;
@@ -81,12 +67,7 @@ public class LumberJack extends JavaPlugin {
         });
 
         createConfig();
-        //treeBlockNames = (ArrayList<String>) getConfig().getStringList("tree-blocks");
 
-        treeBlockNames = new ArrayList<>();
-        treeBlockNames.addAll(Arrays.asList(treeBlocks));
-
-        //treeGroundBlockNames = (ArrayList<String>) getConfig().getStringList("tree-ground-blocks");
         messages = new Messages(this);
         treeUtils = new TreeUtils(this);
         BlockBreakListener blockBreakListener = new BlockBreakListener(this);
@@ -108,15 +89,9 @@ public class LumberJack extends JavaPlugin {
     }
 
     private void trackBlocks() {
-        // Track all player placed logs
-        Collection<Material> trackedBlocks = new HashSet<>();
-        for (String name : treeBlockNames) {
-            Material mat = Enums.getIfPresent(Material.class, name).orNull();
-            if (mat != null) {
-                trackedBlocks.add(mat);
-                //System.out.println("Tracking material " + mat.name());
-            }
-        }
+        Set<Material> trackedBlocks = new HashSet<>(MaterialSetTag.LOGS.getValues());
+        trackedBlocks.removeAll(MaterialSetTag.MANGROVE_LOGS.getValues());
+
         BlockTracker.addTrackedBlockTypes(trackedBlocks);
     }
 

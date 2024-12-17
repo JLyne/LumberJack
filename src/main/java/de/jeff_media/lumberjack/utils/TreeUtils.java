@@ -1,118 +1,81 @@
 package de.jeff_media.lumberjack.utils;
 
-import com.google.common.base.Enums;
+import com.destroystokyo.paper.MaterialSetTag;
 import de.jeff_media.lumberjack.LumberJack;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.map.MinecraftFont;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Map;
 
 public class TreeUtils {
 
     private final LumberJack main;
+
+    private static final Map<Tag<Material>, Material> treeFlavors = Map.of(
+            MaterialSetTag.ACACIA_LOGS, Material.ACACIA_LOG,
+            MaterialSetTag.BIRCH_LOGS, Material.BIRCH_LOG,
+            MaterialSetTag.CRIMSON_STEMS, Material.CRIMSON_STEM,
+            MaterialSetTag.CHERRY_LOGS, Material.CHERRY_LOG,
+            MaterialSetTag.DARK_OAK_LOGS, Material.DARK_OAK_LOG,
+            MaterialSetTag.JUNGLE_LOGS, Material.JUNGLE_LOG,
+            MaterialSetTag.MANGROVE_LOGS, Material.MANGROVE_LOG,
+            MaterialSetTag.OAK_LOGS, Material.OAK_LOG,
+            MaterialSetTag.SPRUCE_LOGS, Material.SPRUCE_LOG,
+            MaterialSetTag.WARPED_STEMS, Material.WARPED_STEM
+    );
 
     public TreeUtils(LumberJack main) {
         this.main = main;
     }
 
     static Material[] getValidGroundTypes(Material mat) {
+        if(MaterialSetTag.CRIMSON_STEMS.isTagged(mat)) {
+            return new Material[]{
+                    Material.CRIMSON_NYLIUM,
+                    Material.NETHERRACK
+            };
+        }
 
-        //System.out.println(mat.name());
-        //System.out.println(mat.name().replace("STRIPPED_","").replace("_WOOD","_LOG").replace("_STEM","_HYPHAE"));
+        if(MaterialSetTag.WARPED_STEMS.isTagged(mat)) {
+            return new Material[]{
+                    Material.WARPED_NYLIUM,
+                    Material.NETHERRACK
+            };
+        }
 
-        switch (mat.name().replace("STRIPPED_","").replace("_WOOD","_LOG").replace("_HYPHAE","_STEM")) {
-            case "ACACIA_LOG":
-            case "BIRCH_LOG":
-            case "DARK_OAK_LOG":
-            case "JUNGLE_LOG":
-            case "OAK_LOG":
-            case "SPRUCE_LOG":
-            case "CHERRY_LOG":
-                return new Material[]{
-                        Material.DIRT,
-                        Material.GRASS_BLOCK,
-                        Material.MYCELIUM,
-                        Material.COARSE_DIRT,
-                        Material.PODZOL,
-                        Material.SNOW_BLOCK,
-                        Enums.getIfPresent(Material.class, "ROOTED_DIRT").or(Material.DIRT),
-                        Enums.getIfPresent(Material.class, "MOSS_BLOCK").or(Material.DIRT)}; // TODO: Fuck the duplicates
-            case "CRIMSON_STEM":
-                return new Material[]{
-                        Material.CRIMSON_NYLIUM,
-                        Material.NETHERRACK
-                };
-            case "WARPED_STEM":
-                return new Material[]{
-                        Material.WARPED_NYLIUM,
-                        Material.NETHERRACK
-                };
-            case "MANGROVE_LOG":
-                return new Material[] {
-                        Material.MANGROVE_ROOTS,
-                        Material.MUDDY_MANGROVE_ROOTS,
-                        Material.MUD,
-                        Material.AIR
-                };
-            case "MANGROVE_ROOTS":
-                return new Material[] {
-                        Material.MUDDY_MANGROVE_ROOTS,
-                        Material.MUD
-                };
+        if(MaterialSetTag.MANGROVE_LOGS.isTagged(mat)) {
+            return new Material[] {
+                    Material.MANGROVE_ROOTS,
+                    Material.MUDDY_MANGROVE_ROOTS,
+                    Material.MUD,
+                    Material.AIR
+            };
+        }
+
+        if(MaterialSetTag.LOGS.isTagged(mat)) {
+            return new Material[]{
+                    Material.DIRT,
+                    Material.GRASS_BLOCK,
+                    Material.MYCELIUM,
+                    Material.COARSE_DIRT,
+                    Material.PODZOL,
+                    Material.SNOW_BLOCK,
+                    Material.ROOTED_DIRT,
+                    Material.MOSS_BLOCK
+            };
+        }
+
+        if(Material.MANGROVE_ROOTS == mat) {
+            return new Material[] {
+                    Material.MUDDY_MANGROVE_ROOTS,
+                    Material.MUD
+            };
         }
 
         return null;
-    }
-
-    static boolean matchesTree(Material orig, Material now) {
-        switch (now) {
-            case ACACIA_LOG:
-            case ACACIA_LEAVES:
-            case STRIPPED_ACACIA_LOG:
-                return orig == Material.ACACIA_LOG || orig == Material.STRIPPED_ACACIA_LOG;
-            case BIRCH_LOG:
-            case BIRCH_LEAVES:
-            case STRIPPED_BIRCH_LOG:
-                return orig == Material.BIRCH_LOG || orig == Material.STRIPPED_BIRCH_LOG;
-            case DARK_OAK_LOG:
-            case DARK_OAK_LEAVES:
-            case STRIPPED_DARK_OAK_LOG:
-                return orig == Material.DARK_OAK_LOG || orig == Material.STRIPPED_DARK_OAK_LOG;
-            case JUNGLE_LOG:
-            case JUNGLE_LEAVES:
-            case STRIPPED_JUNGLE_LOG:
-                return orig == Material.JUNGLE_LOG || orig == Material.STRIPPED_JUNGLE_LOG;
-            case OAK_LOG:
-            case OAK_LEAVES:
-            case STRIPPED_OAK_LOG:
-                return orig == Material.OAK_LOG || orig == Material.STRIPPED_OAK_LOG;
-            case SPRUCE_LOG:
-            case SPRUCE_LEAVES:
-            case STRIPPED_SPRUCE_LOG:
-                return orig == Material.SPRUCE_LOG || orig == Material.STRIPPED_SPRUCE_LOG;
-        }
-        switch (now.name()) {
-            case "WARPED_STEM":
-            case "STRIPPED_WARPED_STEM":
-                return orig.name().equals("WARPED_STEM") || orig.name().equals("STRIPPED_WARPED_STEM");
-            case "CRIMSON_STEM":
-            case "STRIPPED_CRIMSON_STEM":
-                return orig.name().equals("CRIMSON_STEM") || orig.name().equals("STRIPPED_CRIMSON_STEM");
-            case "MANGROVE_LOG":
-            case "MANGROVE_LEAVES":
-            case "STRIPPED_MANGROVE_LOG":
-            case "MANGROVE_ROOTS":
-                return orig.name().equals("MANGROVE_LOG") || orig.name().equals("STRIPPED_MANGROVE_LOG") || orig.name().equals("MANGROVE_ROOTS");
-            case "CHERRY_LOG":
-            case "CHERRY_LEAVES":
-            case "STRIPPED_CHERRY_LOG":
-
-                return orig.name().equals("CHERRY_LOG") || orig.name().equals("STRIPPED_CHERRY_LOG");
-        }
-        return false;
     }
 
     public static boolean matchesTrunkType(Material mat, Material mat2) {
@@ -126,7 +89,7 @@ public class TreeUtils {
 
         for (int height = block.getY() - 1; height >= 0; height--) {
             Block candidate = block.getWorld().getBlockAt(block.getX(), height, block.getZ());
-            if (candidate.getType().isSolid() || candidate.getType().name().equals("MANGROVE_ROOTS")) {
+            if (candidate.getType().isSolid() || candidate.getType() == Material.MANGROVE_ROOTS) {
                 return true;
             }
             if (candidate.getType() != Material.AIR) {
@@ -137,29 +100,14 @@ public class TreeUtils {
         return true;
     }
 
-    static String getFlavor(Material mat) {
-        String name = mat.name().toLowerCase().replace("_WOOD","_LOG").replace("_STEM","_LOG").replace("_HYPHAE","_LOG");
-        if(!name.contains("_LOG")) return "none";
-        if (name.contains("acacia")) {
-            return "acacia";
-        } else if (name.contains("birch")) {
-            return "birch";
-        } else if (name.contains("dark_oak")) {
-            return "dark_oak";
-        } else if (name.contains("oak")) {
-            return "oak";
-        } else if (name.contains("jungle")) {
-            return "jungle";
-        } else if (name.contains("spruce")) {
-            return "spruce";
-        } else if (name.contains("mangrove")) {
-            return "mangrove";
-        } else if (name.contains("cherry")) {
-            return "cherry";
-        } else {
-            return "none";
+    static Material getFlavor(Material mat) {
+        for (Tag<Material> tag : treeFlavors.keySet()) {
+            if(tag.isTagged(mat)) {
+                return treeFlavors.get(tag);
+            }
         }
 
+        return null;
     }
 
     static ArrayList<Block> getAdjacent(Block block) {
@@ -235,26 +183,14 @@ public class TreeUtils {
     }
 
     boolean isPartOfTree(Material mat) {
-
-        for (String blockName : main.treeBlockNames) {
-            if (Material.matchMaterial(blockName) != null) {
-                if (Material.matchMaterial(blockName) == mat) {
-                    return true;
-                }
-            } //else {
-            //main.getLogger().warning("Block type not found: " + blockName);
-            // TODO: Build list of Materials only once, then cache it to avoid String->Material conversion on every block break
-            //}
-        }
-
-        return false;
+        return MaterialSetTag.LOGS.isTagged(mat);
     }
 
     public Block[] getLogsAbove(Block block) {
-        String flavor = getFlavor(block.getType());
+        Material flavor = getFlavor(block.getType());
         ArrayList<Block> list = new ArrayList<>();
         Block currentBlock = block.getRelative(BlockFace.UP);
-        while (isPartOfTree(currentBlock) && list.size() < main.maxTreeSize && getFlavor(currentBlock.getType()).equalsIgnoreCase(flavor)) {
+        while (isPartOfTree(currentBlock) && list.size() < main.maxTreeSize && getFlavor(currentBlock.getType()) == flavor) {
             list.add(currentBlock);
             currentBlock = currentBlock.getRelative(BlockFace.UP);
         }

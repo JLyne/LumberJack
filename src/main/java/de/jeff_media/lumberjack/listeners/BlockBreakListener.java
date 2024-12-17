@@ -1,5 +1,6 @@
 package de.jeff_media.lumberjack.listeners;
 
+import com.destroystokyo.paper.MaterialSetTag;
 import com.jeff_media.jefflib.BlockTracker;
 import de.jeff_media.lumberjack.LumberJack;
 import de.jeff_media.lumberjack.NBTKeys;
@@ -36,7 +37,7 @@ public class BlockBreakListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onLeavesBreak(BlockBreakEvent event) {
 
-        if (!(event.getBlock().getBlockData() instanceof Leaves) && !event.getBlock().getType().name().endsWith("_WART_BLOCK")) {
+        if (!(event.getBlock().getBlockData() instanceof Leaves) && !MaterialSetTag.WART_BLOCKS.isTagged(event.getBlock().getType())) {
             return;
         }
 
@@ -113,7 +114,7 @@ public class BlockBreakListener implements Listener {
 
         // check if axe has to be used
         if (plugin.getConfig().getBoolean("must-use-axe")) {
-            if (!event.getPlayer().getInventory().getItemInMainHand().getType().name().toUpperCase().endsWith("_AXE")) {
+            if (!MaterialSetTag.ITEMS_AXES.isTagged(event.getPlayer().getInventory().getItemInMainHand().getType())) {
                 return;
             }
             AxeMaterial requiredAxe = AxeMaterial.get(plugin.getConfig().getString("requires-at-least"));
@@ -133,7 +134,7 @@ public class BlockBreakListener implements Listener {
 
         //System.out.println(8);
 
-        if(!event.getBlock().getType().name().contains("MANGROVE")) {
+        if(!MaterialSetTag.MANGROVE_LOGS.isTagged(event.getBlock().getType())) {
             // fix for torch bug part 2
             if (plugin.getConfig().getBoolean("prevent-torch-exploit") && !TreeUtils.isAboveNonSolidBlock(event.getBlock())) {
                 return;
