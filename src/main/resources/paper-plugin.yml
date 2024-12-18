@@ -8,6 +8,12 @@ prefix: LumberJack
 database: false
 website: https://www.mfnalex.de/
 
+dependencies:
+  server:
+    PlaceholderAPI:
+      required: false
+      load: BEFORE
+
 permissions:
   lumberjack.use:
     description: Allows usage of the command /lumberjack
