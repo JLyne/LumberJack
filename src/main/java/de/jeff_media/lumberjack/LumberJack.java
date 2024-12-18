@@ -14,21 +14,26 @@ import de.jeff_media.lumberjack.listeners.BlockPlaceListener;
 import de.jeff_media.lumberjack.listeners.DecayListener;
 import de.jeff_media.lumberjack.listeners.PlayerListener;
 import de.jeff_media.lumberjack.utils.TreeUtils;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class LumberJack extends JavaPlugin {
 
     private static LumberJack instance;
@@ -74,8 +79,11 @@ public class LumberJack extends JavaPlugin {
         BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
         DecayListener decayListener = new DecayListener();
         PlayerListener playerListener = new PlayerListener(this);
-        CommandLumberjack commandLumberjack = new CommandLumberjack(this);
-        Objects.requireNonNull(getCommand("lumberjack")).setExecutor(commandLumberjack);
+
+        LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
+        manager.registerEventHandler(LifecycleEvents.COMMANDS, event ->
+                new CommandLumberjack(this, event.registrar()));
+
         getServer().getPluginManager().registerEvents(blockBreakListener, this);
         getServer().getPluginManager().registerEvents(blockPlaceListener, this);
         getServer().getPluginManager().registerEvents(playerListener, this);
