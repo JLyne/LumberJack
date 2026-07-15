@@ -40,11 +40,11 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!plugin.treeUtils.isPartOfTree(event.getBlock())) {
+        if (!TreeUtils.isPartOfTree(event.getBlock())) {
             return;
         }
 
-        if (!plugin.treeUtils.isOnTreeGround(event.getBlock())) {
+        if (!TreeUtils.isOnTreeGround(event.getBlock())) {
             return;
         }
 
@@ -139,7 +139,7 @@ public class BlockBreakListener implements Listener {
 
         } else {
 
-            logs = new ArrayList<>(Arrays.asList(plugin.treeUtils.getLogsAbove(event.getBlock())));
+            logs = new ArrayList<>(Arrays.asList(TreeUtils.getLogsAbove(event.getBlock())));
 
         }
 

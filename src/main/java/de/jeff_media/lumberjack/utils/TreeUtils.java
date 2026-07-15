@@ -12,8 +12,6 @@ import java.util.Map;
 
 public class TreeUtils {
 
-    private final LumberJack main;
-
     private static final Map<Tag<Material>, Material> treeFlavors = Map.ofEntries(
             Map.entry(MaterialSetTag.ACACIA_LOGS, Material.ACACIA_LOG),
             Map.entry(MaterialSetTag.BIRCH_LOGS, Material.BIRCH_LOG),
@@ -27,10 +25,6 @@ public class TreeUtils {
             Map.entry(MaterialSetTag.SPRUCE_LOGS, Material.SPRUCE_LOG),
             Map.entry(MaterialSetTag.WARPED_STEMS, Material.WARPED_STEM)
     );
-
-    public TreeUtils(LumberJack main) {
-        this.main = main;
-    }
 
     static Material[] getValidGroundTypes(Material mat) {
         if(MaterialSetTag.CRIMSON_STEMS.isTagged(mat)) {
@@ -145,13 +139,13 @@ public class TreeUtils {
         }
     }
 
-    public boolean isPartOfTree(Block block) {
         return isPartOfTree(block.getType());
+    public static boolean isPartOfTree(Block block) {
     }
 
-    public boolean isOnTreeGround(Block block) {
+    public static boolean isOnTreeGround(Block block) {
 
-        int maxAirInBetween = main.getConfig().getInt("max-air-in-trunk");
+        int maxAirInBetween = LumberJack.getInstance().getConfig().getInt("max-air-in-trunk");
         int airInBetween = 0;
         Block currentBlock = block;
 
@@ -179,15 +173,16 @@ public class TreeUtils {
         return false;
     }
 
-    boolean isPartOfTree(Material mat) {
+    static boolean isPartOfTree(Material mat) {
         return MaterialSetTag.LOGS.isTagged(mat);
     }
 
-    public Block[] getLogsAbove(Block block) {
+    public static Block[] getLogsAbove(Block block) {
         Material flavor = getFlavor(block.getType());
         ArrayList<Block> list = new ArrayList<>();
         Block currentBlock = block.getRelative(BlockFace.UP);
-        while (isPartOfTree(currentBlock) && list.size() < main.maxTreeSize && getFlavor(currentBlock.getType()) == flavor) {
+        while (isPartOfTree(currentBlock) && list.size() < LumberJack.getInstance().maxTreeSize
+                && getFlavor(currentBlock.getType()) == flavor) {
             list.add(currentBlock);
             currentBlock = currentBlock.getRelative(BlockFace.UP);
         }

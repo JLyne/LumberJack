@@ -10,7 +10,6 @@ import de.jeff_media.lumberjack.listeners.BlockPlaceListener;
 import de.jeff_media.lumberjack.listeners.DecayListener;
 import de.jeff_media.lumberjack.listeners.PlayerListener;
 import de.jeff_media.lumberjack.utils.BlockTracker;
-import de.jeff_media.lumberjack.utils.TreeUtils;
 import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -43,7 +42,6 @@ public class LumberJack extends JavaPlugin implements Listener {
     public final int maxTreeSize = 50;
     @SuppressWarnings("FieldCanBeLocal")
     private final int currentConfigVersion = 14;
-    public TreeUtils treeUtils;
     public Messages messages;
     public ArrayList<String> disabledWorlds;
     boolean gravityEnabledByDefault = false;
@@ -70,7 +68,6 @@ public class LumberJack extends JavaPlugin implements Listener {
         loadConfig();
 
         messages = new Messages(this);
-        treeUtils = new TreeUtils(this);
         BlockBreakListener blockBreakListener = new BlockBreakListener(this);
         BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
         DecayListener decayListener = new DecayListener();
