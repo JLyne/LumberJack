@@ -93,6 +93,7 @@ public class LumberJack extends JavaPlugin implements Listener {
         Set<Material> trackedBlocks = new HashSet<>(MaterialSetTag.LOGS.getValues());
         trackedBlocks.removeAll(MaterialSetTag.MANGROVE_LOGS.getValues());
 
+        blockTracker.clearTrackedBlockTypes();
         blockTracker.addTrackedBlockTypes(trackedBlocks);
     }
 
@@ -170,6 +171,7 @@ public class LumberJack extends JavaPlugin implements Listener {
     @EventHandler
     public void onReload(ServerResourcesReloadedEvent e) {
         findEnchantment();
+        trackBlocks();
     }
 
     public void togglePlayerSetting(Player p) {
