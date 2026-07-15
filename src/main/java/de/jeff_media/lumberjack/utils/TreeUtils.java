@@ -131,6 +131,13 @@ public class TreeUtils {
 
     public static void getTreeTrunk2(Block block, ArrayList<Block> list, Material mat) {
         if (!matchesTrunkType(mat, block.getType())) return;
+
+        // Ignore player placed blocks
+        if (LumberJack.getInstance().getConfig().getBoolean("only-natural-logs")
+                && LumberJack.getInstance().getBlockTracker().isPlayerPlacedBlock(block)) {
+            return;
+        }
+
         if (!list.contains(block)) {
             list.add(block);
             for (Block next : getAdjacent(block)) {
@@ -139,8 +146,10 @@ public class TreeUtils {
         }
     }
 
-        return isPartOfTree(block.getType());
     public static boolean isPartOfTree(Block block) {
+        return (!LumberJack.getInstance().getConfig().getBoolean("only-natural-logs") 
+                    || !LumberJack.getInstance().getBlockTracker().isPlayerPlacedBlock(block)) // Ignore player placed blocks
+                && isPartOfTree(block.getType());
     }
 
     public static boolean isOnTreeGround(Block block) {

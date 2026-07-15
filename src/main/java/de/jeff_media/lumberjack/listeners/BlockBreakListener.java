@@ -52,12 +52,6 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        // Tree gravity does not work for player placed blocks
-        if (plugin.getConfig().getBoolean("only-natural-logs")
-                && plugin.getBlockTracker().isPlayerPlacedBlock(event.getBlock())) {
-            return;
-        }
-
         // Dont show message when gravity is forced
         if ((!event.getPlayer().hasPermission("lumberjack.force") || event.getPlayer().hasPermission("lumberjack.force.ignore"))
                 && event.getPlayer().hasPermission("lumberjack.use")) {
