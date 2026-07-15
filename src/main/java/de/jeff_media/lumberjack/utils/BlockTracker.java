@@ -17,7 +17,6 @@
 
 package de.jeff_media.lumberjack.utils;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -78,19 +77,6 @@ public final class BlockTracker implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onLogStrip(BlockPlaceEvent event) {
-        if(!isTrackedBlockType(event.getBlock().getType())) return;
-        if(isPlayerPlacedBlock(event.getBlock())) return;
-
-        final Block placedBlock = event.getBlock();
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if(placedBlock.getType().name().startsWith("STRIPPED_")) {
-                setPlayerPlacedBlock(placedBlock, false);
-            }
-        },1L);
-    }
-
     /**
      * Adds a new material to the block tracker
      *
@@ -107,13 +93,6 @@ public final class BlockTracker implements Listener {
      */
     public Collection<Material> getTrackedBlockTypes() {
         return trackedTypes;
-    }
-
-    /**
-     * Tracks all materials
-     */
-    public void trackAllBlockTypes() {
-        addTrackedBlockTypes(Arrays.asList(Material.values()));
     }
 
     /**
