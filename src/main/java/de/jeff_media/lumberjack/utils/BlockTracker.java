@@ -35,8 +35,7 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Tracks player placed blocks.
@@ -152,8 +151,7 @@ public final class BlockTracker implements Listener {
      * @param block Block to create the key for
      * @return NamespacedKey for the block
      */
-    @Contract("_ -> new")
-    private NamespacedKey getKey(@NotNull final Block block) {
+    private NamespacedKey getKey(@NonNull final Block block) {
         final int x = block.getX() & 0x000F;
         final int y = block.getY();
         final int z = block.getZ() & 0x000F;
@@ -168,7 +166,7 @@ public final class BlockTracker implements Listener {
      * @param chunk Chunk to check
      * @return Collection of all blocks inside the chunk that have been placed by players
      */
-    @NotNull
+    @NonNull
     public Collection<Block> getPlayerPlacedBlocks(final Chunk chunk) {
         final Collection<Block> blocks = new HashSet<>();
         final PersistentDataContainer pdc = getPlayerPlacedPDC(chunk);

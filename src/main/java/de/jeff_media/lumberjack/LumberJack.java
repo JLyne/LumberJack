@@ -28,7 +28,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class LumberJack extends JavaPlugin implements Listener {
         DecayListener decayListener = new DecayListener();
         PlayerListener playerListener = new PlayerListener(this);
 
-        LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
+        LifecycleEventManager<@NonNull Plugin> manager = getLifecycleManager();
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event ->
                 new CommandLumberjack(this, event.registrar()));
 

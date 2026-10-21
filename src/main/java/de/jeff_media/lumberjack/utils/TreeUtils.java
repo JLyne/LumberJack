@@ -22,6 +22,7 @@ public class TreeUtils {
             Map.entry(MaterialSetTag.MANGROVE_LOGS, Material.MANGROVE_LOG),
             Map.entry(MaterialSetTag.OAK_LOGS, Material.OAK_LOG),
             Map.entry(MaterialSetTag.PALE_OAK_LOGS, Material.PALE_OAK_LOG),
+            Map.entry(MaterialSetTag.POPLAR_LOGS, Material.POPLAR_LOG),
             Map.entry(MaterialSetTag.SPRUCE_LOGS, Material.SPRUCE_LOG),
             Map.entry(MaterialSetTag.WARPED_STEMS, Material.WARPED_STEM)
     );
